@@ -45,10 +45,13 @@ export const App: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Default to dark for iOS 26 glass look
-    document.documentElement.classList.add('dark');
-    setIsDarkMode(true);
+    // Keep the selected theme on the document root so every surface updates together.
+    document.documentElement.classList.toggle('dark', isDarkMode);
+    document.documentElement.classList.toggle('light', !isDarkMode);
+    document.documentElement.style.colorScheme = isDarkMode ? 'dark' : 'light';
+  }, [isDarkMode]);
 
+  useEffect(() => {
     loadHealth();
     loadConversations();
   }, []);
