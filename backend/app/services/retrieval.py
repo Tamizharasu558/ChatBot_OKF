@@ -252,7 +252,8 @@ class RetrievalEngine:
         self,
         query: str,
         top_k: int = 5,
-        min_score: float = 0.5
+        min_score: float = 0.5,
+        concept_ids: Optional[Set[str]] = None
     ) -> List[RetrievedPassage]:
         """
         Executes Hybrid RAG Search:
@@ -280,6 +281,11 @@ class RetrievalEngine:
 
         # If zero matches across both channels, immediately return empty
         all_candidate_indices = set(bm25_scores.keys()) | set(dense_scores.keys())
+        if concept_ids is not None:
+            all_candidate_indices = {
+                idx for idx in all_candidate_indices
+                if self.chunks[idx].concept_id in concept_ids
+            }
         if not all_candidate_indices:
             return []
 

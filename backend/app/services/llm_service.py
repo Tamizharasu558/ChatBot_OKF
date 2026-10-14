@@ -198,9 +198,17 @@ class Llama32OfflineEngine(BaseLLMProvider):
         if not passages:
             return UNSUPPORTED_ANSWER_MESSAGE
 
+        # Uploaded documents must always use their retrieved passages, never the
+        # built-in demo knowledge handlers below.
+        is_uploaded_context = any(
+            p["concept_id"].startswith("uploads/")
+            or p["type"].lower() == "uploaded document"
+            for p in passages
+        )
+
         # 1. High precision domain handlers for known OKF playbooks & contracts:
         # Rate Limiting
-        if any(term in query_lower for term in ["rate limit", "api limit", "ratelimit", "requests per minute", "req/min", "burst"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["rate limit", "api limit", "ratelimit", "requests per minute", "req/min", "burst"]):
             return (
                 "Based on the Core REST API Architecture documentation (`technical/api_architecture.md`), "
                 "the API implements token-bucket rate limiting enforced at the ingress edge:\n\n"
@@ -211,7 +219,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Refund Policy & Subscriptions
-        if any(term in query_lower for term in ["refund", "money-back", "cancel subscription", "guarantee"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["refund", "money-back", "cancel subscription", "guarantee"]):
             return (
                 "According to the Billing and Subscriptions FAQ (`faq/billing_and_subscriptions.md`), "
                 "the refund policy provides a **14-day no-questions-asked money-back guarantee** on all new subscriptions:\n\n"
@@ -221,7 +229,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Pricing Tiers / Subscription Plans
-        if any(term in query_lower for term in ["subscription tier", "subscription plan", "pricing tier", "starter", "professional", "how much"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["subscription tier", "subscription plan", "pricing tier", "starter", "professional", "how much"]):
             return (
                 "Per the Billing and Subscriptions FAQ (`faq/billing_and_subscriptions.md`), three subscription tiers are available:\n\n"
                 "1. **Starter ($29/month)**: Up to 5 team members, standard API access (100 req/min), and email support.\n"
@@ -230,7 +238,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Payment Methods
-        if any(term in query_lower for term in ["payment method", "payment options", "pay with", "credit card", "apple pay"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["payment method", "payment options", "pay with", "credit card", "apple pay"]):
             return (
                 "According to the Billing and Subscriptions FAQ (`faq/billing_and_subscriptions.md`), accepted payment methods include:\n\n"
                 "- Major credit/debit cards: Visa, Mastercard, American Express, and Discover.\n"
@@ -239,7 +247,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Invoices / Receipts
-        if any(term in query_lower for term in ["invoice", "receipt", "download tax", "vat"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["invoice", "receipt", "download tax", "vat"]):
             return (
                 "According to the Billing and Subscriptions FAQ (`faq/billing_and_subscriptions.md`):\n\n"
                 "Account administrators can view and download all historical receipts and tax invoices by navigating to **Settings > Billing & Invoices** in the customer web portal. "
@@ -247,7 +255,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Recognized Revenue & Attested Computation
-        if any(term in query_lower for term in ["revenue", "asc 606", "recognized revenue", "fiscal year", "gaap"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["revenue", "asc 606", "recognized revenue", "fiscal year", "gaap"]):
             return (
                 "According to the Recognized Company Revenue specification (`technical/revenue_metric.md`) "
                 "and its sanctioned Attested Computation (`technical/attested_revenue_metric.md`):\n\n"
@@ -266,7 +274,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Order Processing & Fraud Screening
-        if any(term in query_lower for term in ["order", "fraud", "checkout", "sift", "pipeline", "risk score"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["order", "fraud", "checkout", "sift", "pipeline", "risk score"]):
             return (
                 "Per the E-Commerce Order Processing Pipeline playbook (`products/order_processing.md`), "
                 "the pipeline consists of four sequential stages: **Ingestion & Validation**, **Fraud & Risk Screening**, **Inventory Reservation**, and **Payment Settlement & Fulfillment Dispatch**.\n\n"
@@ -279,7 +287,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Data Governance, GDPR, Retention Schedules
-        if any(term in query_lower for term in ["log", "logs", "access log", "retention", "gdpr", "log purge", "privacy", "pii", "governance", "classification", "backup"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["log", "logs", "access log", "retention", "gdpr", "log purge", "privacy", "pii", "governance", "classification", "backup"]):
             return (
                 "According to the Corporate Data Governance and Privacy Policy (`general/data_governance.md`):\n\n"
                 "**Data Classification Tiers:**\n"
@@ -295,7 +303,7 @@ class Llama32OfflineEngine(BaseLLMProvider):
             )
 
         # Authentication & API Gateway Overview
-        if any(term in query_lower for term in ["api", "authentication", "token", "jwt", "bearer", "endpoint"]):
+        if not is_uploaded_context and any(term in query_lower for term in ["api", "authentication", "token", "jwt", "bearer", "endpoint"]):
             return (
                 "According to the Core REST API Architecture documentation (`technical/api_architecture.md`):\n\n"
                 "- **Communication**: All endpoints communicate over TLS 1.3 and require JSON payload formatting.\n"

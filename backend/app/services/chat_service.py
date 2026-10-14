@@ -89,11 +89,21 @@ class ChatService:
                 confidence="grounded"
             )
 
+        # If this conversation contains an uploaded document, keep every later
+        # answer inside that document's OKF passages only.
+        conversation_scope_ids = {
+            citation.concept_id
+            for message in db.get_conversation_messages(conversation_id)
+            for citation in message.sources
+            if citation.concept_id.startswith("uploads/")
+        }
+
         # Retrieve relevant passages from indexed OKF bundle
         retrieved_passages = retrieval_engine.search(
             query=clean_question,
             top_k=settings.MAX_RETRIEVAL_PASSAGES,
-            min_score=settings.MIN_RELEVANCE_SCORE
+            min_score=settings.MIN_RELEVANCE_SCORE,
+            concept_ids=conversation_scope_ids or None
         )
 
         # If knowledge base does not contain relevant information:
