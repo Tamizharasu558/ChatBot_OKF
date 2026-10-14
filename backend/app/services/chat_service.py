@@ -20,7 +20,8 @@ class ChatService:
     @staticmethod
     async def process_chat(
         question: str,
-        conversation_id: Optional[str] = None
+        conversation_id: Optional[str] = None,
+        concept_ids: Optional[set[str]] = None,
     ) -> ChatResponse:
         clean_question = question.strip()
         if not clean_question:
@@ -89,11 +90,25 @@ class ChatService:
                 confidence="grounded"
             )
 
+        # If this conversation contains an uploaded document, keep every later
+        # answer inside that document's OKF passages only.
+        conversation_scope_ids = {
+            citation.concept_id
+            for message in db.get_conversation_messages(conversation_id)
+            for citation in message.sources
+            if citation.concept_id.startswith("uploads/")
+        }
+        # A freshly uploaded document can be queried before its citation is
+        # persisted to the conversation. The explicit scope keeps that first
+        # answer document-only as well.
+        scoped_concept_ids = concept_ids or conversation_scope_ids
+
         # Retrieve relevant passages from indexed OKF bundle
         retrieved_passages = retrieval_engine.search(
             query=clean_question,
             top_k=settings.MAX_RETRIEVAL_PASSAGES,
-            min_score=settings.MIN_RELEVANCE_SCORE
+            min_score=settings.MIN_RELEVANCE_SCORE,
+            concept_ids=scoped_concept_ids or None
         )
 
         # If knowledge base does not contain relevant information:

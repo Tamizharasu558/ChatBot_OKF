@@ -121,8 +121,9 @@ async def upload_file_endpoint(
 
         if question and question.strip():
             chat_res = await chat_service.process_chat(
-                question=f"Regarding attached '{file.filename}': {question.strip()}",
-                conversation_id=conversation_id
+                question=question.strip(),
+                conversation_id=conversation_id,
+                concept_ids={concept_id},
             )
             response_explanation = (
                 f"{explanation}\n\n"
