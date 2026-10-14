@@ -461,8 +461,8 @@ html.light .text-gray-500 {
   color: #64748b;
 }
 
-html.light .border-white\\/[0.08\\],
-html.light .border-white\\/[0.1\\] {
+html.light .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.1\] {
   border-color: rgba(15, 23, 42, 0.1);
 }
 

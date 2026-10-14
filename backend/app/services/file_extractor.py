@@ -24,7 +24,14 @@ class FileExtractionError(Exception):
 class FileExtractor:
     @staticmethod
     def extract_text(file_bytes: bytes, filename: str) -> str:
-        ext = Path(filename).suffix.lower()
+        safe_filename = Path(filename or "").name
+        ext = Path(safe_filename).suffix.lower()
+
+        if not safe_filename or ext not in ALLOWED_DOCUMENT_EXTENSIONS:
+            allowed = ", ".join(sorted(ALLOWED_DOCUMENT_EXTENSIONS))
+            raise FileExtractionError(f"Unsupported file type. Allowed extensions: {allowed}")
+        if not file_bytes:
+            raise FileExtractionError("The uploaded file is empty.")
 
         if len(file_bytes) > MAX_FILE_SIZE:
             raise FileExtractionError("File size exceeds 25MB limit.")
