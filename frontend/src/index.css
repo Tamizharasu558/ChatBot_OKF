@@ -469,3 +469,132 @@ html.light .border-white\\/[0.1\\] {
 html.light ::-webkit-scrollbar-thumb {
   background: rgba(71, 85, 105, 0.25);
 }
+
+/* Apple-inspired light appearance: clean white surfaces, graphite text, and restrained color. */
+html.light {
+  --bg-primary: #f5f5f7;
+  --bg-secondary: #e8e8ed;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --glass-bg: #ffffff;
+  --glass-bg-light: rgba(255, 255, 255, 0.94);
+  --glass-bg-heavy: #ffffff;
+  --glass-border: rgba(29, 29, 31, 0.12);
+  --glass-border-hover: rgba(29, 29, 31, 0.2);
+  --glass-shadow: rgba(29, 29, 31, 0.1);
+  --text-primary: #1d1d1f;
+  --text-secondary: #515154;
+  --text-muted: #6e6e73;
+  --text-faint: #86868b;
+}
+
+html.light .ios26-bg {
+  background: #f5f5f7;
+}
+
+html.light .ios26-bg::before {
+  background: radial-gradient(circle, rgba(0, 122, 255, 0.06) 0%, transparent 68%);
+  filter: blur(80px);
+}
+
+html.light .ios26-bg::after {
+  background: radial-gradient(circle, rgba(175, 82, 222, 0.04) 0%, transparent 68%);
+  filter: blur(90px);
+}
+
+html.light .glass,
+html.light .glass-heavy,
+html.light .glass-sidebar,
+html.light .glass-pill,
+html.light .glass-input,
+html.light .msg-assistant {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(29, 29, 31, 0.12);
+  color: #1d1d1f;
+  box-shadow: 0 1px 2px rgba(29, 29, 31, 0.04), 0 8px 24px rgba(29, 29, 31, 0.06);
+  backdrop-filter: blur(18px) saturate(1.05);
+  -webkit-backdrop-filter: blur(18px) saturate(1.05);
+}
+
+html.light .glass-sidebar {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 1px 0 0 rgba(29, 29, 31, 0.08), 8px 0 24px rgba(29, 29, 31, 0.04);
+}
+
+html.light .glass-pill:hover {
+  background: #ffffff;
+  border-color: rgba(29, 29, 31, 0.2);
+  box-shadow: 0 4px 14px rgba(29, 29, 31, 0.1);
+}
+
+html.light .glass-input {
+  background: #ffffff;
+  border-color: rgba(29, 29, 31, 0.16);
+  box-shadow: 0 1px 2px rgba(29, 29, 31, 0.04), 0 4px 16px rgba(29, 29, 31, 0.05);
+}
+
+html.light .msg-user {
+  background: #007aff;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 5px 14px rgba(0, 122, 255, 0.22);
+}
+
+html.light .msg-assistant {
+  background: #ffffff;
+  border-color: rgba(29, 29, 31, 0.1);
+}
+
+html.light .glass-blue {
+  background: rgba(0, 122, 255, 0.1);
+  border-color: rgba(0, 122, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.08);
+}
+
+html.light .glass-violet {
+  background: rgba(175, 82, 222, 0.09);
+  border-color: rgba(175, 82, 222, 0.18);
+  box-shadow: 0 4px 16px rgba(175, 82, 222, 0.07);
+}
+
+html.light .glass-teal {
+  background: rgba(52, 199, 89, 0.08);
+  border-color: rgba(52, 199, 89, 0.18);
+  box-shadow: 0 4px 16px rgba(52, 199, 89, 0.07);
+}
+
+html.light .glass-amber {
+  background: rgba(255, 159, 10, 0.09);
+  border-color: rgba(255, 159, 10, 0.2);
+  box-shadow: 0 4px 16px rgba(255, 159, 10, 0.07);
+}
+
+html.light .active-glass {
+  background: rgba(0, 122, 255, 0.1) !important;
+  border-color: rgba(0, 122, 255, 0.24) !important;
+  box-shadow: 0 3px 12px rgba(0, 122, 255, 0.1) !important;
+}
+
+html.light .text-glass-primary { color: #1d1d1f; }
+html.light .text-glass-secondary { color: #515154; }
+html.light .text-glass-muted { color: #6e6e73; }
+html.light .gradient-text-blue {
+  background: linear-gradient(135deg, #007aff, #5856d6);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Re-skin legacy utility classes that otherwise keep the dark header/input chrome. */
+html.light .bg-slate-900\/60 { background-color: rgba(255, 255, 255, 0.92); }
+html.light .bg-slate-900\/40 { background-color: rgba(255, 255, 255, 0.86); }
+html.light .border-slate-700\/50,
+html.light .border-slate-700\/40 { border-color: rgba(29, 29, 31, 0.1); }
+html.light .bg-slate-700\/50 { background-color: rgba(29, 29, 31, 0.1); }
+html.light .text-slate-100,
+html.light .text-slate-200,
+html.light .text-slate-300 { color: #1d1d1f; }
+html.light .text-slate-400 { color: #515154; }
+html.light .text-slate-500 { color: #6e6e73; }
+html.light .text-slate-600 { color: #86868b; }
+html.light .hover\\:bg-white\\/\\[0\\.08\\] { background-color: rgba(29, 29, 31, 0.06); }
+html.light .hover\\:text-slate-200:hover { color: #1d1d1f; }
