@@ -50,6 +50,10 @@
     color-scheme: dark;
   }
 
+  html.light {
+    color-scheme: light;
+  }
+
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     background: var(--bg-primary);
@@ -379,4 +383,89 @@
   0%   { box-shadow: 0 0 0 0 rgba(52,211,153,0.6); }
   60%  { box-shadow: 0 0 0 5px rgba(52,211,153,0); }
   100% { box-shadow: 0 0 0 0 rgba(52,211,153,0); }
+}
+
+/* Light mode overrides for the custom glass surfaces used throughout the app. */
+html.light {
+  --bg-primary: #f4f7fb;
+  --bg-secondary: #e8eef7;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.86);
+  --glass-bg-light: rgba(255, 255, 255, 0.72);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(15, 23, 42, 0.12);
+  --glass-border-hover: rgba(15, 23, 42, 0.2);
+  --glass-shine: rgba(255, 255, 255, 0.9);
+  --glass-shadow: rgba(30, 64, 175, 0.12);
+  --text-primary: #172033;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-faint: #94a3b8;
+}
+
+html.light body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+html.light .ios26-bg {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 5%, rgba(96, 165, 250, 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 85%, rgba(167, 139, 250, 0.18) 0%, transparent 55%),
+    linear-gradient(170deg, #f8fbff 0%, #edf3fb 50%, #e8eef7 100%);
+}
+
+html.light .glass,
+html.light .glass-pill,
+html.light .glass-heavy {
+  color: var(--text-primary);
+}
+
+html.light .glass-sidebar {
+  background: rgba(255, 255, 255, 0.9);
+  border-right-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 4px 0 24px -4px rgba(30, 64, 175, 0.12);
+}
+
+html.light .glass-input {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(15, 23, 42, 0.14);
+  color: var(--text-primary);
+}
+
+html.light .msg-assistant {
+  background: rgba(255, 255, 255, 0.76);
+  border-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 0 4px 16px -6px rgba(30, 64, 175, 0.14);
+}
+
+html.light .active-glass {
+  background: rgba(96, 165, 250, 0.16) !important;
+  border-color: rgba(37, 99, 235, 0.25) !important;
+}
+
+html.light .text-slate-100,
+html.light .text-slate-200,
+html.light .text-slate-300,
+html.light .text-gray-100,
+html.light .text-gray-200 {
+  color: #172033;
+}
+
+html.light .text-slate-400,
+html.light .text-slate-500,
+html.light .text-gray-400,
+html.light .text-gray-500 {
+  color: #64748b;
+}
+
+html.light .border-white\\/[0.08\\],
+html.light .border-white\\/[0.1\\] {
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(71, 85, 105, 0.25);
 }
